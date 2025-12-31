@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EmployeeLeaveManagementSys.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20251210054549_AddReasonToLeaveRequest")]
-    partial class AddReasonToLeaveRequest
+    [Migration("20251227060600_First_mig")]
+    partial class First_mig
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

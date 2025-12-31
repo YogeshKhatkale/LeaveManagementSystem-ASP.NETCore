@@ -8,7 +8,7 @@
         public int SickLeave { get; set; }
         public int CasualLeave { get; set; }
         public int OtherLeave { get; set; }
-        public int TotalLeaves { get; set; }
+        public int TotalLeaves {get; set; }
     }
 
     public class EmployeeProfileDto

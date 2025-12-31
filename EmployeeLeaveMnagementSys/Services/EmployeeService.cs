@@ -90,13 +90,13 @@ namespace EmployeeLeaveManagementSys.Services
                     {
                         LeaveRequestId = lr.LeaveRequestId,
                         EmployeeId = lr.EmployeeId,
-                        EmployeeName = lr.Employee.Name,
-                        LeaveType = lr.LeaveType,
+                        EmployeeName = lr.Employee != null ? lr.Employee.Name : "Unknown",
+                        LeaveType = lr.LeaveType ?? "",
                         StartDate = lr.StartDate,
                         EndDate = lr.EndDate,
-                        Reason = lr.Reason,
-                        Status = lr.Status,
-                        AdminRemark = lr.AdminRemark,
+                        Reason = lr.Reason ?? "",
+                        Status = lr.Status ?? "Pending",
+                        AdminRemark = lr.AdminRemark ?? "",
                         DateSubmitted = lr.DateSubmitted,
                         TotalDays = (lr.EndDate - lr.StartDate).Days + 1
                     })
@@ -112,13 +112,13 @@ namespace EmployeeLeaveManagementSys.Services
                     {
                         LeaveRequestId = lr.LeaveRequestId,
                         EmployeeId = lr.EmployeeId,
-                        EmployeeName = lr.Employee.Name,
-                        LeaveType = lr.LeaveType,
+                        EmployeeName = lr.Employee != null ? lr.Employee.Name : "Unknown",
+                        LeaveType = lr.LeaveType ?? "",
                         StartDate = lr.StartDate,
                         EndDate = lr.EndDate,
-                        Reason = lr.Reason,
-                        Status = lr.Status,
-                        AdminRemark = lr.AdminRemark,
+                        Reason = lr.Reason?? "",
+                        Status = lr.Status ?? "Pending",
+                        AdminRemark = lr.AdminRemark?? "",
                         DateSubmitted = lr.DateSubmitted,
                         TotalDays = (lr.EndDate - lr.StartDate).Days + 1
                     })

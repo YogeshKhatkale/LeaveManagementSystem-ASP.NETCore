@@ -45,7 +45,7 @@ namespace EmployeeLeaveManagementSys.Services
                     PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerDto.Password),
                     Department = registerDto.Department,
                     Designation = registerDto.Designation,
-                    Role = "Employee"
+                    Role = registerDto.Role
                 };
 
                 _context.Employees.Add(employee);
@@ -138,7 +138,7 @@ namespace EmployeeLeaveManagementSys.Services
         private string GenerateJwtToken(Employee employee)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
-            var Key = Encoding.ASCII.GetBytes(_configuration["JwtSetting:Secret"]);
+            var Key = Encoding.ASCII.GetBytes(_configuration["JwtSettings:Secret"]);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {

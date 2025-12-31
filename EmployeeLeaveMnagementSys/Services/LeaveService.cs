@@ -120,7 +120,7 @@ namespace EmployeeLeaveManagementSys.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Apply leave error: {ex:Message}");
+                _logger.LogError($"Apply leave error: {ex.Message}");
                 return new ServiceResponse
                 {
                     Success = false,
@@ -136,19 +136,19 @@ namespace EmployeeLeaveManagementSys.Services
             {
                 var leaveRequests = await _context.LeaveRequests
                     .Include(lr => lr.Employee)
-                    .Where(lr => employeeId == employeeId)
+                    .Where(lr => lr.EmployeeId == employeeId)
                     .OrderByDescending(lr => lr.DateSubmitted)
                     .Select(lr => new LeaveRequestResponseDto
                     {
                         LeaveRequestId = lr.LeaveRequestId,
                         EmployeeId = lr.EmployeeId,
-                        EmployeeName = lr.Employee.Name,
-                        LeaveType = lr.LeaveType,
+                        EmployeeName = lr.Employee != null ? lr.Employee.Name : "Unknown",
+                        LeaveType = lr.LeaveType ?? "",
                         StartDate = lr.StartDate,
                         EndDate = lr.EndDate,
-                        Reason = lr.Reason,
-                        Status = lr.Status,
-                        AdminRemark = lr.AdminRemark,
+                        Reason = lr.Reason ?? "",
+                        Status = lr.Status ?? "Pending",
+                        AdminRemark = lr.AdminRemark ?? "",
                         DateSubmitted = lr.DateSubmitted,
                         TotalDays = (lr.EndDate - lr.StartDate).Days + 1
 
@@ -163,7 +163,7 @@ namespace EmployeeLeaveManagementSys.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Get employee leave requests error: {ex:Message}");
+                _logger.LogError($"Get employee leave requests error: {ex.Message}");
                 return new ServiceResponse<List<LeaveRequestResponseDto>>
                 {
                     Success = false,
@@ -183,13 +183,13 @@ namespace EmployeeLeaveManagementSys.Services
                     {
                         LeaveRequestId = lr.LeaveRequestId,
                         EmployeeId = lr.EmployeeId,
-                        EmployeeName = lr.Employee.Name,
-                        LeaveType = lr.LeaveType,
+                        EmployeeName = lr.Employee != null ? lr.Employee.Name:"Unknown",
+                        LeaveType = lr.LeaveType ?? "",
                         StartDate = lr.StartDate,
                         EndDate = lr.EndDate,
-                        Reason = lr.Reason,
-                        Status = lr.Status,
-                        AdminRemark = lr.AdminRemark,
+                        Reason = lr.Reason ?? "",
+                        Status = lr.Status ?? "Pending",
+                        AdminRemark = lr.AdminRemark ?? "",
                         DateSubmitted = lr.DateSubmitted,
                         TotalDays = (lr.EndDate - lr.StartDate).Days + 1
 
@@ -204,7 +204,7 @@ namespace EmployeeLeaveManagementSys.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Get pending leaves error: {ex:Message}");
+                _logger.LogError($"Get pending leaves error: {ex.Message}");
                 return new ServiceResponse<List<LeaveRequestResponseDto>>
                 {
                     Success = false,
@@ -227,7 +227,7 @@ namespace EmployeeLeaveManagementSys.Services
                         Message = "Leave request not found"
                     };
                 }
-                if (leaveRequest.Status != "Pending")
+                if (!string.Equals(leaveRequest.Status,"Pending",StringComparison.OrdinalIgnoreCase))
                 {
                     return new ServiceResponse
                     {
@@ -251,7 +251,7 @@ namespace EmployeeLeaveManagementSys.Services
                 }
 
                 // Deduct from leave balance 
-                switch (leaveRequest.LeaveType)
+                switch (leaveRequest.LeaveType?.Trim())
                 {
                     case "Annual":
                         leaveBalance.AnnualLeave -= days;
@@ -343,13 +343,13 @@ namespace EmployeeLeaveManagementSys.Services
                     {
                         LeaveRequestId = lr.LeaveRequestId,
                         EmployeeId = lr.EmployeeId,
-                        EmployeeName = lr.Employee.Name,
-                        LeaveType = lr.LeaveType,
+                        EmployeeName = lr.Employee != null ? lr.Employee.Name : "unknown",
+                        LeaveType = lr.LeaveType ?? "",
                         StartDate = lr.StartDate,
                         EndDate = lr.EndDate,
-                        Reason = lr.Reason,
-                        Status = lr.Status,
-                        AdminRemark = lr.AdminRemark,
+                        Reason = lr.Reason ?? "",
+                        Status = lr.Status ?? "PENDING",
+                        AdminRemark = lr.AdminRemark ?? "",
                         DateSubmitted = lr.DateSubmitted,
                         TotalDays = (lr.EndDate - lr.StartDate).Days + 1,
 
