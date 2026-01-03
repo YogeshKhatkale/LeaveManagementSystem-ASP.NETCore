@@ -112,7 +112,8 @@ namespace EmployeeLeaveManagementSys.Services
                 {
                     Success = true,
                     Message = "Leave request submitted successfully.",
-                    Data = leaveRequest.LeaveRequestId
+                    Data = "leaveRequestId : " + leaveRequest.LeaveRequestId,
+                    Status = "Pending"
 
                 };
 

@@ -120,6 +120,7 @@ namespace EmployeeLeaveManagementSys.Services
                     Token = token,
                     EmployeeId = employee.EmployeeId,
                     Name = employee.Name,
+                    Role = employee.Role,
                     Email = employee.Email
                 };
             }
