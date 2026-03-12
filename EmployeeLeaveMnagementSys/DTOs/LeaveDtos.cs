@@ -7,6 +7,7 @@ namespace EmployeeLeaveManagementSys.DTOs
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Reason { get; set; }
+        public string? ContactDuringLeave { get; set; }
     }
 
     public class LeaveApprovalDto

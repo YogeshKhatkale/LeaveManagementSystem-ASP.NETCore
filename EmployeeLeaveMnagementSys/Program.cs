@@ -110,9 +110,14 @@ namespace EmployeeLeaveManagementSys
             {
                 corsOptions.AddPolicy("AllowAll", policy =>
                 {
-                    policy.AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader();
+                    policy.WithOrigins(
+                            "http://127.0.0.1:5500",
+                            "http://localhost:5500",
+                            "http://localhost:3000",
+                            "null"              // for opening HTML file directly in browser
+                        )
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
                 });
             });
 
@@ -124,9 +129,9 @@ namespace EmployeeLeaveManagementSys
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
-
-            app.UseHttpsRedirection();
             app.UseCors("AllowAll");
+            app.UseHttpsRedirection();
+          
             app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();

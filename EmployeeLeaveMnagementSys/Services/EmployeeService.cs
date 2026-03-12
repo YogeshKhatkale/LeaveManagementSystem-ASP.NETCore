@@ -57,7 +57,7 @@ namespace EmployeeLeaveManagementSys.Services
                     Success = false,
                     Message = "Failed to retrieve leave balance"
                 };
-            }
+            } 
         }
 
         public async Task<ServiceResponse<EmployeeDashboardDto>> GetEmployeeDashboard(int employeeId)
@@ -116,9 +116,9 @@ namespace EmployeeLeaveManagementSys.Services
                         LeaveType = lr.LeaveType ?? "",
                         StartDate = lr.StartDate,
                         EndDate = lr.EndDate,
-                        Reason = lr.Reason?? "",
+                        Reason = lr.Reason ?? "",
                         Status = lr.Status ?? "Pending",
-                        AdminRemark = lr.AdminRemark?? "",
+                        AdminRemark = lr.AdminRemark ?? "",
                         DateSubmitted = lr.DateSubmitted,
                         TotalDays = (lr.EndDate - lr.StartDate).Days + 1
                     })
@@ -186,10 +186,10 @@ namespace EmployeeLeaveManagementSys.Services
 
                 // Leave type statistics
                 var leaveTypeStats = await _context.LeaveRequests
-                    .Where(lr => lr.Status == "Approved")
-                    .GroupBy(lr => lr.LeaveType)
-                    .Select(g => new { LeaveType = g.Key, Count = g.Count() })
-                    .ToDictionaryAsync(x => x.LeaveType, x => x.Count);
+      .Where(lr => lr.Status == "Approved" && lr.LeaveType != null)
+      .GroupBy(lr => lr.LeaveType!)
+      .Select(g => new { LeaveType = g.Key!, Count = g.Count() })
+      .ToDictionaryAsync(x => x.LeaveType, x => x.Count);
 
                 // Pending requests
                 var pendingRequests = await _context.LeaveRequests
@@ -269,6 +269,7 @@ namespace EmployeeLeaveManagementSys.Services
             try
             {
                 var employee = await _context.Employees
+                    .Include(e => e.LeaveBalance)
                     .Where(e => e.EmployeeId == employeeId)
                     .Select(e => new EmployeeProfileDto
                     {
@@ -277,7 +278,10 @@ namespace EmployeeLeaveManagementSys.Services
                         Email = e.Email,
                         Department = e.Department,
                         Designation = e.Designation,
-                        Role = e.Role
+                        Role = e.Role,
+                        SickLeaveBalance = e.LeaveBalance != null ? e.LeaveBalance.SickLeave : 0,
+                        CasualLeaveBalance = e.LeaveBalance != null ? e.LeaveBalance.CasualLeave : 0,
+                        AnnualLeaveBalance = e.LeaveBalance != null ? e.LeaveBalance.AnnualLeave : 0,
                     })
                     .FirstOrDefaultAsync();
 
@@ -313,6 +317,7 @@ namespace EmployeeLeaveManagementSys.Services
             try
             {
                 var employees = await _context.Employees
+                    .Include(e => e.LeaveBalance)
                     .Select(e => new EmployeeProfileDto
                     {
                         EmployeeId = e.EmployeeId,
@@ -320,7 +325,10 @@ namespace EmployeeLeaveManagementSys.Services
                         Email = e.Email,
                         Department = e.Department,
                         Designation = e.Designation,
-                        Role = e.Role
+                        Role = e.Role,
+                        SickLeaveBalance = e.LeaveBalance != null ? e.LeaveBalance.SickLeave : 0,
+                        CasualLeaveBalance = e.LeaveBalance != null ? e.LeaveBalance.CasualLeave : 0,
+                        AnnualLeaveBalance = e.LeaveBalance != null ? e.LeaveBalance.AnnualLeave : 0,
                     })
                     .ToListAsync();
 

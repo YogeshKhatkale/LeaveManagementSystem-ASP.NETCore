@@ -6,7 +6,7 @@ namespace EmployeeLeaveManagementSys.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin,Manager")]
 
     public class AdminController:ControllerBase
     {
@@ -28,6 +28,7 @@ namespace EmployeeLeaveManagementSys.Controllers
         /// Get all pending leave requests
         /// </summary>
         [HttpGet("pending-leaves")]
+        [HttpGet("pending")]
         public async Task<IActionResult> GetPendingLeaves()
         {
             var result = await _leaveService.GetAllPendingLeaves();
@@ -85,7 +86,7 @@ namespace EmployeeLeaveManagementSys.Controllers
         /// <summary>
         /// Get complete leave history of all employees
         /// </summary>
-        [HttpGet("leave-history")]
+        [HttpGet("all-leaves")]
         public async Task<IActionResult> GetLeaveHistory()
         {
             var result = await _leaveService.GetLeaveHistory();

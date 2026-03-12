@@ -14,6 +14,7 @@ namespace EmployeeLeaveManagementSys.Models
         public string Status { get; set; } = "Pending";
         public string? AdminRemark { get; set; }
         public DateTime DateSubmitted { get; set; }
+        public string? ContactDuringLeave { get; set; }
         public virtual Employee? Employee { get; set; }
 
     }

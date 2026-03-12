@@ -11,7 +11,7 @@ namespace EmployeeLeaveManagementSys.Controllers
 
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles = "Employee,Admin")]
+    [Authorize(Roles = "Employee,Admin,Manager")]
 
 
     public class EmployeeController : ControllerBase
@@ -33,7 +33,7 @@ namespace EmployeeLeaveManagementSys.Controllers
         /// <summary>
         /// Get current employee's leave balance
         /// </summary>
-        [HttpGet("leave-balance")]
+        [HttpGet("balance")]
         public async Task<IActionResult> GetLeaveBalance()
         {
             var employeeId = GetEmployeeIdFromToken();
@@ -50,7 +50,7 @@ namespace EmployeeLeaveManagementSys.Controllers
         /// <summary>
         /// Apply for leave
         /// </summary>
-        [HttpPost("apply-leave")]
+        [HttpPost("leaves")]
         public async Task<IActionResult> ApplyLeave([FromBody] LeaveRequestDto leaveRequestDto)
         {
             if (!ModelState.IsValid)
@@ -72,7 +72,7 @@ namespace EmployeeLeaveManagementSys.Controllers
         /// <summary>
         /// Get all leave requests for current employee
         /// </summary>
-        [HttpGet("leave-requests")]
+        [HttpGet("leaves")]
         public async Task<IActionResult> GetLeaveRequests()
         {
             var employeeId = GetEmployeeIdFromToken();

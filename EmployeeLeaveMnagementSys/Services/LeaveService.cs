@@ -75,10 +75,9 @@ namespace EmployeeLeaveManagementSys.Services
 
                 int availableDays = leaveRequestDto.LeaveType switch
                 {
-                    "Annual" => leaveBalance.AnnualLeave,
                     "Sick" => leaveBalance.SickLeave,
                     "Casual" => leaveBalance.CasualLeave,
-                    "Other" => leaveBalance.OtherLeave,
+                    "Earned" => leaveBalance.AnnualLeave,   // ← map "Earned" to AnnualLeave field
                     _ => 0
                 };
 
@@ -101,6 +100,7 @@ namespace EmployeeLeaveManagementSys.Services
                     StartDate = leaveRequestDto.StartDate,
                     EndDate = leaveRequestDto.EndDate,
                     Reason = leaveRequestDto.Reason,
+                    ContactDuringLeave = leaveRequestDto.ContactDuringLeave,
                     Status = "Pending",
                     DateSubmitted = DateTime.UtcNow
                 };
@@ -254,18 +254,9 @@ namespace EmployeeLeaveManagementSys.Services
                 // Deduct from leave balance 
                 switch (leaveRequest.LeaveType?.Trim())
                 {
-                    case "Annual":
-                        leaveBalance.AnnualLeave -= days;
-                        break;
-                    case "Sick":
-                        leaveBalance.SickLeave -= days;
-                        break;
-                    case "Casual":
-                        leaveBalance.CasualLeave -= days;
-                        break;
-                    case "Other":
-                        leaveBalance.OtherLeave -= days;
-                        break;
+                    case "Sick": leaveBalance.SickLeave -= days; break;
+                    case "Casual": leaveBalance.CasualLeave -= days; break;
+                    case "Earned": leaveBalance.AnnualLeave -= days; break;
                 }
 
                 leaveRequest.Status = "Approved";

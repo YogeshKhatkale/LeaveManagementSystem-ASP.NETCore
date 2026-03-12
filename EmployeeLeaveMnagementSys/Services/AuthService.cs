@@ -117,7 +117,7 @@ namespace EmployeeLeaveManagementSys.Services
                 {
                     Success = true,
                     Message = "Login successful",
-                    Token = token,
+                    AccessToken = token,
                     EmployeeId = employee.EmployeeId,
                     Name = employee.Name,
                     Role = employee.Role,

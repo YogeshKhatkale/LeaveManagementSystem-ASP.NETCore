@@ -19,5 +19,8 @@
         public string Department { get; set; }
         public string Designation { get; set; }
         public string Role { get; set; }
+        public int SickLeaveBalance { get; set; }
+        public int CasualLeaveBalance { get; set; }
+        public int AnnualLeaveBalance { get; set; }
     }
 }
